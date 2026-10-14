@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Executivo - Network Media</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nmDark: '#0A0F1D',
+                        nmCard: '#131B2E',
+                        nmBlue: '#0066FF',
+                        nmCyan: '#00C6FF',
+                        nmBorder: '#1E293B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-nmDark text-gray-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- CABEÇALHO -->
+    <header class="bg-nmCard border-b border-nmBorder py-4 px-6 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <a href="https://networkmedia.net.br/" target="_blank" class="flex items-center space-x-2 group">
+                    <div class="bg-gradient-to-r from-nmBlue to-nmCyan p-2 rounded-lg text-white font-black text-xl tracking-wider shadow-md group-hover:opacity-90 transition">
+                        NM
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold tracking-tight text-white">Network<span class="text-nmCyan">Media</span></span>
+                        <p class="text-xs text-gray-400">Business Intelligence & Performance</p>
+                    </div>
+                </a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="bg-nmBlue/20 text-nmCyan border border-nmBlue/30 text-xs px-3 py-1.5 rounded-full font-semibold">
+                    <i class="fa-solid fa-circle text-[8px] mr-1.5 animate-pulse"></i> Outubro 2026 - Ativo
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
+        
+        <!-- Título e Filtros -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Painel de Desempenho de Mídia</h1>
+                <p class="text-gray-400 text-sm mt-1">Indicadores consolidados por cliente, formatos e entregas de campanhas.</p>
+            </div>
+            
+            <!-- Barra de Pesquisa e Filtros -->
+            <div class="flex flex-wrap gap-3 w-full md:w-auto">
+                <div class="relative flex-grow sm:flex-grow-0">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                        <i class="fa-solid fa-search"></i>
+                    </span>
+                    <input type="text" id="searchInput" placeholder="Pesquisar cliente..." 
+                        class="bg-nmCard border border-nmBorder text-sm rounded-lg pl-10 pr-4 py-2.5 w-full sm:w-64 focus:outline-none focus:border-nmCyan text-white placeholder-gray-500 transition">
+                </div>
+                <select id="formatFilter" class="bg-nmCard border border-nmBorder text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-nmCyan text-white transition">
+                    <option value="">Todos os Formatos</option>
+                    <option value="DISPLAY">Display</option>
+                    <option value="VÍDEO">Vídeo</option>
+                    <option value="CTV">CTV</option>
+                    <option value="YOUTUBE">YouTube</option>
+                    <option value="NATIVE">Native</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- CARDS DE KPIs PRINCIPAIS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <div class="bg-nmCard border border-nmBorder rounded-xl p-5 shadow-sm hover:border-nmBlue transition">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Faturamento Total</p>
+                        <h3 class="text-2xl font-bold text-white mt-1" id="kpiFaturamento">R$ 1.263.145</h3>
+                    </div>
+                    <div class="p-3 bg-blue-500/10 text-nmCyan rounded-lg">
+                        <i class="fa-solid fa-chart-line text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-xs text-emerald-400 font-medium mt-3 inline-block"><i class="fa-solid fa-arrow-up mr-1"></i> 98.2% Rentabilizado</span>
+            </div>
+
+            <div class="bg-nmCard border border-nmBorder rounded-xl p-5 shadow-sm hover:border-nmBlue transition">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Impressões Totais</p>
+                        <h3 class="text-2xl font-bold text-white mt-1" id="kpiImpressoes">21.8 Milhões</h3>
+                    </div>
+                    <div class="p-3 bg-cyan-500/10 text-nmCyan rounded-lg">
+                        <i class="fa-solid fa-eye text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-xs text-gray-400 font-medium mt-3 inline-block">Média de entrega otimizada</span>
+            </div>
+
+            <div class="bg-nmCard border border-nmBorder rounded-xl p-5 shadow-sm hover:border-nmBlue transition">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Cliques Totais</p>
+                        <h3 class="text-2xl font-bold text-white mt-1" id="kpiCliques">84.512</h3>
+                    </div>
+                    <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-lg">
+                        <i class="fa-solid fa-mouse-pointer text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-xs text-emerald-400 font-medium mt-3 inline-block"><i class="fa-solid fa-arrow-up mr-1"></i> CTR Médio: 0.38%</span>
+            </div>
+
+            <div class="bg-nmCard border border-nmBorder rounded-xl p-5 shadow-sm hover:border-nmBlue transition">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Complete Views</p>
+                        <h3 class="text-2xl font-bold text-white mt-1" id="kpiViews">9.4 Milhões</h3>
+                    </div>
+                    <div class="p-3 bg-purple-500/10 text-purple-400 rounded-lg">
+                        <i class="fa-solid fa-video text-xl"></i>
+                    </div>
+                </div>
+                <span class="text-xs text-gray-400 font-medium mt-3 inline-block">Engajamento de Vídeo</span>
+            </div>
+        </div>
+
+        <!-- SEÇÃO DE GRÁFICOS -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Gráfico de Barras: Faturamento por Cliente -->
+            <div class="bg-nmCard border border-nmBorder rounded-xl p-6 lg:col-span-2 shadow-sm">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                    <i class="fa-solid fa-chart-column text-nmCyan mr-2"></i> Faturamento (Rentabilizado R$) por Cliente
+                </h3>
+                <div class="relative h-72">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico de Rosca: Distribuição por Formato -->
+            <div class="bg-nmCard border border-nmBorder rounded-xl p-6 shadow-sm">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                    <i class="fa-solid fa-chart-pie text-nmCyan mr-2"></i> Distribuição por Formato
+                </h3>
+                <div class="relative h-72 flex justify-center items-center">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABELA DE DADOS DETALHADOS -->
+        <div class="bg-nmCard border border-nmBorder rounded-xl shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-nmBorder flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                    <i class="fa-solid fa-table text-nmCyan mr-2"></i> Detalhamento de Performance por Cliente
+                </h3>
+                <span class="text-xs text-gray-400" id="rowCount">Exibindo registros</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse" id="dataTable">
+                    <thead>
+                        <tr class="bg-nmDark/60 text-gray-400 text-xs uppercase tracking-wider border-b border-nmBorder">
+                            <th class="py-3 px-6 font-semibold">Cliente</th>
+                            <th class="py-3 px-6 font-semibold">Formato</th>
+                            <th class="py-3 px-6 font-semibold">Rentabilizado (R$)</th>
+                            <th class="py-3 px-6 font-semibold">Impressões</th>
+                            <th class="py-3 px-6 font-semibold">Cliques</th>
+                            <th class="py-3 px-6 font-semibold">CTR</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-nmBorder text-sm text-gray-300">
+                        <!-- Preenchido via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-nmCard border-t border-nmBorder py-6 px-6 mt-12 text-center text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-2">
+                <a href="https://networkmedia.net.br/" target="_blank" class="font-bold text-white hover:text-nmCyan transition">Network Media</a>
+                <span>&copy; 2026 - Todos os direitos reservados.</span>
+            </div>
+            <div>
+                <a href="https://networkmedia.net.br/" target="_blank" class="text-xs text-nmCyan hover:underline">
+                    Visite o site oficial <i class="fa-solid fa-external-link-alt ml-1"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DO DASHBOARD (DADOS & INTERATIVIDADE) -->
+    <script>
+        const rawData = [
+            { cliente: 'ELA', formato: 'DISPLAY', rent: 24551.93, impressoes: 448677, cliques: 8356, ctr: '1.86%' },
+            { cliente: 'ELA', formato: 'VÍDEO', rent: 24548.99, impressoes: 200920, cliques: 9262, ctr: '4.61%' },
+            { cliente: 'SESC SAUDE', formato: 'DISPLAY', rent: 9550.80, impressoes: 559548, cliques: 2538, ctr: '0.45%' },
+            { cliente: 'SESC LAZER', formato: 'DISPLAY', rent: 9244.94, impressoes: 559548, cliques: 2538, ctr: '0.45%' },
+            { cliente: 'SENAC', formato: 'DISPLAY', rent: 7734.01, impressoes: 420693, cliques: 2727, ctr: '0.65%' },
+            { cliente: 'SENAC', formato: 'NATIVE', rent: 7733.50, impressoes: 389742, cliques: 3897, ctr: '1.00%' },
+            { cliente: 'CIELO', formato: 'VÍDEO', rent: 212077.15, impressoes: 4520071, cliques: 11600, ctr: '0.26%' },
+            { cliente: 'UNINOVE EAD', formato: 'CTV', rent: 33959.09, impressoes: 449727, cliques: 0, ctr: '0.00%' },
+            { cliente: 'UNINOVE EAD', formato: 'DISPLAY', rent: 54134.03, impressoes: 3869862, cliques: 6421, ctr: '0.17%' },
+            { cliente: 'UNINOVE EAD', formato: 'YOUTUBE', rent: 123983.44, impressoes: 2553074, cliques: 2181, ctr: '0.09%' },
+            { cliente: 'UNINOVE MEDICINA', formato: 'DISPLAY', rent: 42670.24, impressoes: 4914181, cliques: 28071, ctr: '0.57%' },
+            { cliente: 'UNINOVE MEDICINA', formato: 'VÍDEO', rent: 109906.64, impressoes: 3017886, cliques: 4028, ctr: '0.13%' },
+            { cliente: 'UNINOVE P SELETIVO', formato: 'YOUTUBE', rent: 124124.94, impressoes: 2308591, cliques: 2110, ctr: '0.09%' },
+            { cliente: 'UNINOVE P SELETIVO', formato: 'VÍDEO', rent: 104585.51, impressoes: 2270272, cliques: 4648, ctr: '0.20%' }
+        ];
+
+        let barChartInstance = null;
+        let doughnutChartInstance = null;
+
+        function renderTable(data) {
+            const tbody = document.querySelector('#dataTable tbody');
+            tbody.innerHTML = '';
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-nmDark/40 transition';
+                tr.innerHTML = `
+                    <td class="py-3 px-6 font-medium text-white">${item.cliente}</td>
+                    <td class="py-3 px-6"><span class="bg-blue-500/10 text-nmCyan px-2 py-1 rounded text-xs">${item.formato}</span></td>
+                    <td class="py-3 px-6">R$ ${item.rent.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                    <td class="py-3 px-6">${item.impressoes.toLocaleString('pt-BR')}</td>
+                    <td class="py-3 px-6">${item.cliques.toLocaleString('pt-BR')}</td>
+                    <td class="py-3 px-6 font-semibold text-emerald-400">${item.ctr}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('rowCount').innerText = `Exibindo ${data.length} registros`;
+        }
+
+        function updateCharts(data) {
+            const clientMap = {};
+            const formatMap = {};
+
+            data.forEach(item => {
+                clientMap[item.cliente] = (clientMap[item.cliente] || 0) + item.rent;
+                formatMap[item.formato] = (formatMap[item.formato] || 0) + item.impressoes;
+            });
+
+            const clients = Object.keys(clientMap);
+            const revenues = Object.values(clientMap);
+
+            const formats = Object.keys(formatMap);
+            const formatImpr = Object.values(formatMap);
+
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            if (barChartInstance) barChartInstance.destroy();
+            barChartInstance = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: clients,
+                    datasets: [{
+                        label: 'Rentabilizado (R$)',
+                        data: revenues,
+                        backgroundColor: '#0066FF',
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#94A3B8' } },
+                        y: { grid: { color: '#1E293B' }, ticks: { color: '#94A3B8' } }
+                    }
+                }
+            });
+
+            const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+            if (doughnutChartInstance) doughnutChartInstance.destroy();
+            doughnutChartInstance = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: formats,
+                    datasets: [{
+                        data: formatImpr,
+                        backgroundColor: ['#0066FF', '#00C6FF', '#6366F1', '#A855F7', '#EC4899'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94A3B8', boxWidth: 12 } }
+                    }
+                }
+            });
+        }
+
+        function filterData() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const formatVal = document.getElementById('formatFilter').value;
+
+            const filtered = rawData.filter(item => {
+                const matchName = item.cliente.toLowerCase().includes(searchVal);
+                const matchFormat = formatVal === '' || item.formato === formatVal;
+                return matchName && matchFormat;
+            });
+
+            renderTable(filtered);
+            updateCharts(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterData);
+        document.getElementById('formatFilter').addEventListener('change', filterData);
+
+        renderTable(rawData);
+        updateCharts(rawData);
+    </script>
+</body>
+</html>
